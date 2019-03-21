@@ -22,7 +22,7 @@ def create(request):
         form = BoardForm()
     # indentation 주의
     context = {'form' : form}
-    return render(request, 'boards/form.html', context)
+    return render(request, 'boards/forms.html', context)
         
 def detail(request, board_pk):
     # board = Board.objects.get(pk=board_pk)
@@ -54,6 +54,4 @@ def update(request, board_pk):
             'form' : form, 
             'board' : board,
     }
-    return render(request, 'boards/form.html', context)
-    
-    
+    return render(request, 'boards/forms.html', context)

@@ -1,0 +1,62 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+{% load crispy_forms_tags %}
+
+<!-- 1 -->
+<!-- as_p 방식 -->
+<!--{% if request.resolver_match.url_name == 'create' %}-->
+<!--    <h1>New Board</h1>-->
+<!--{% else %}-->
+<!--    <h1>EDIT Board</h1>-->
+<!--{% endif %}-->
+<!--<form method="POST">-->
+<!--    {% csrf_token %}-->
+    <!-- as_p : 각 값을 p 태그로 감싼다-->
+<!--    {{ form.as_p }}   -->
+<!--    <input type="submit" value="Submit"/>-->
+<!--</form>-->
+
+<!-- 2 -->
+<!-- crispy 방식-->
+{% if request.resolver_match.url_name == 'create' %}
+    <a href="{% url 'boards:index' %}">BACK</a>
+{% else %}
+    <a href="{% url 'boards:detail' board.pk %}">BACK</a>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Submit"/>
+</form>
+
+<!-- 3 -->
+<form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    {{ form.errors }}
+    {{ form.label_tag }} {{ field }}
+    {% endfor %}
+    <input type="submit" value="Submit"/>
+</form>
+
+<!-- 4 -->
+{{ form.non_field_error }}
+<form method="POST">
+    {% csrf_token %}
+    <div class="col-4">
+        {{ form.title.errors }}
+        {{ form.title.label_tag }}
+        {{ form.title.title }}
+    </div>
+    <div>
+        {{ form.content.errors }}
+        {{ form.content.label_tag }}
+        {{ form.content.title }}
+    </div>
+    <input type="submit" value="Submit"/>
+</form>
+{% endblock %}
+
+<!-- 5 -->
+{% crispy form %}
