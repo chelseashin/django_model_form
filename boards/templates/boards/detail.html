@@ -1,0 +1,9 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+
+<h1>{{ board.pk }}</h1>
+<p>{{ board.title}}</p>
+<hr>
+<p>{{ board.content }}</p>
+<a href="{% url 'boards:index' %}">[ BACK ]</a>
+{% endblock %}
