@@ -4,11 +4,11 @@
 
 <!-- 1 -->
 <!-- as_p 방식 -->
-<!--{% if request.resolver_match.url_name == 'create' %}-->
-<!--    <h1>New Board</h1>-->
-<!--{% else %}-->
-<!--    <h1>EDIT Board</h1>-->
-<!--{% endif %}-->
+{% if request.resolver_match.url_name == 'create' %}
+    <h1>NEW Board</h1>
+{% else %}
+    <h1>EDIT Board</h1>
+{% endif %}
 <!--<form method="POST">-->
 <!--    {% csrf_token %}-->
     <!-- as_p : 각 값을 p 태그로 감싼다-->
@@ -18,12 +18,6 @@
 
 <!-- 2 -->
 <!-- crispy 방식-->
-<!--{% if request.resolver_match.url_name == 'create' %}-->
-<!--    <a href="{% url 'boards:index' %}">BACK</a>-->
-<!--{% else %}-->
-<!--    <a href="{% url 'boards:detail' board.pk %}">BACK</a>-->
-<!--{% endif %}-->
-
 <form method="POST">
     {% csrf_token %}
     {{ form|crispy }}
@@ -60,5 +54,16 @@
 
 <!-- 5 -->
 <!--{% crispy form %}-->
+
+
+
+
+
+
+{% if request.resolver_match.url_name == 'create' %}
+    <a href="{% url 'boards:index' %}">BACK</a>
+{% else %}
+    <a href="{% url 'boards:detail' board.pk %}">BACK</a>
+{% endif %}
 
 {% endblock %}

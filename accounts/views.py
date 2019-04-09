@@ -22,7 +22,7 @@ def signup(request):
     else:
         form = UserCreationForm()
     context = {'form': form}
-    return render(request, 'accounts/signup.html', context)
+    return render(request, 'accounts/auth_form.html', context)
     
 # 로그인
 def login(request):
@@ -33,10 +33,12 @@ def login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('boards:index')
+            return redirect(request.POST.get('next') or 'boards:index')
     else:
         form = AuthenticationForm()
-    context = {'form': form,}
+    context = {'form': form,
+               'next': request.GET.get('next', ''),    # next가 아니면 빈 칸을 넣어줌
+    }
     return render(request, 'accounts/login.html', context)
     
 # 로그아웃
@@ -63,7 +65,7 @@ def edit(request):
     else:
         form = UserCustomChangeForm(instance=request.user)
     context = {'form': form,}
-    return render(request, 'accounts/edit.html', context)
+    return render(request, 'accounts/auth_form.html', context)
     
 def change_password(request):
     if request.method == "POST":
@@ -76,4 +78,4 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     context = {'form': form,}
-    return render(request, 'accounts/change_password.html', context)
+    return render(request, 'accounts/auth_form.html', context)
