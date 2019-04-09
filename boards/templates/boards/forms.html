@@ -18,11 +18,11 @@
 
 <!-- 2 -->
 <!-- crispy 방식-->
-{% if request.resolver_match.url_name == 'create' %}
-    <a href="{% url 'boards:index' %}">BACK</a>
-{% else %}
-    <a href="{% url 'boards:detail' board.pk %}">BACK</a>
-{% endif %}
+<!--{% if request.resolver_match.url_name == 'create' %}-->
+<!--    <a href="{% url 'boards:index' %}">BACK</a>-->
+<!--{% else %}-->
+<!--    <a href="{% url 'boards:detail' board.pk %}">BACK</a>-->
+<!--{% endif %}-->
 
 <form method="POST">
     {% csrf_token %}
@@ -31,32 +31,34 @@
 </form>
 
 <!-- 3 -->
-<form method="POST">
-    {% csrf_token %}
-    {% for field in form %}
-    {{ form.errors }}
-    {{ form.label_tag }} {{ field }}
-    {% endfor %}
-    <input type="submit" value="Submit"/>
-</form>
+<!--<form method="POST">-->
+<!--    {% csrf_token %}-->
+<!--    {% for field in form %}-->
+<!--    {{ form.errors }}-->
+<!--    {{ form.label_tag }} {{ field }}-->
+<!--    {% endfor %}-->
+<!--    <input type="submit" value="Submit"/>-->
+<!--</form>-->
 
 <!-- 4 -->
-{{ form.non_field_error }}
-<form method="POST">
-    {% csrf_token %}
-    <div class="col-4">
-        {{ form.title.errors }}
-        {{ form.title.label_tag }}
-        {{ form.title.title }}
-    </div>
-    <div>
-        {{ form.content.errors }}
-        {{ form.content.label_tag }}
-        {{ form.content.title }}
-    </div>
-    <input type="submit" value="Submit"/>
-</form>
-{% endblock %}
+<!--{{ form.non_field_error }}-->
+<!--<form method="POST">-->
+<!--    {% csrf_token %}-->
+<!--    <div class="col-4">-->
+<!--        {{ form.title.errors }}-->
+<!--        {{ form.title.label_tag }}-->
+<!--        {{ form.title.title }}-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        {{ form.content.errors }}-->
+<!--        {{ form.content.label_tag }}-->
+<!--        {{ form.content.title }}-->
+<!--    </div>-->
+<!--    <input type="submit" value="Submit"/>-->
+<!--</form>-->
+
 
 <!-- 5 -->
-{% crispy form %}
+<!--{% crispy form %}-->
+
+{% endblock %}
