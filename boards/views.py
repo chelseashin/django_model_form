@@ -7,7 +7,7 @@ from .forms import BoardForm
 def index(request):
     boards = Board.objects.order_by('-pk')
     context = {
-        'boards' : boards
+        'boards' : boards,
     }
     return render(request, 'boards/index.html', context)
     

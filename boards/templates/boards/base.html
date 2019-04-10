@@ -1,3 +1,4 @@
+{% load gravatar %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +15,12 @@
         
         {% if user.is_authenticated %}
             <h1>
-                안녕, {{ user.username }}
+                <!-- 그라바타 회원가입해서 hash값 받아오기 -->
+                <img src="https://s.gravatar.com/avatar/{{ user.email | makemd5 }}?s=80" alt="profile img">
+                <!-- User클래스의 instance -->
+                <!--안녕, {{ user }}야 환영해~-->
+                <!-- string 형태 -->
+                안녕, {{ user.username }}야 환영해~
                 <a href="{% url 'accounts:edit' %}">회원수정</a>
                 <a href="{% url 'accounts:logout' %}">로그아웃</a>
                 <form action="{% url 'accounts:delete' %}" method="POST" style="display: inline" onsubmit="return confirm('R U SURE??');">
