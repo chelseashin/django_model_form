@@ -1,0 +1,81 @@
+{% extends 'accounts/base.html' %} 
+{% block body %} 
+{% load gravatar %}
+<!-- 해당 유저의 프로필 정보 -->
+<div class="row d-flex justify-content-center">
+    <h2><img src="https://s.gravatar.com/avatar/{{ user_info.email|makemd5 }}" class="rounded-circle" alt="profile image" height="200" width="200">{{ user_info.username }}</h2>
+    <!--<a href="#" class="badge badge-primary">팔로우</a>-->
+    <!--<h2>{{ user_info.username }}의 프로필</h2>-->
+    {% if user == user_info %}
+    <a href="{% url 'accounts:edit' %}">[내 정보 수정]</a>
+    <a href="{% url 'accounts:change_password' %}">[ 비밀번호 변경 ]</a>
+    <from action="{% url 'accounts:delete' %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <input type="submit" value="탈퇴">
+    </from>
+    {% endif %}
+</div>
+<hr>
+<h6><b>{{ user_info.username }}가 작성한 게시글</b></h6>
+<div class="row">
+{% for board in user_info.board_set.all %}
+<div class="card col-4" style="width: 18rem;">
+
+    <img src="https://ppss.kr/wp-content/uploads/2015/12/interest_me_20130104_095920.jpg" class="card-img-top" alt="board" height="275" width="250" data-toggle="modal" data-target="#exampleModal{{user_info.pk}}">
+
+    <!--<div class="card-body">-->
+    <!--    <h6 class="card-title">{{ board.title }}</h6>-->
+    <!--</div>-->
+    
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal{{user_info.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img src="https://ppss.kr/wp-content/uploads/2015/12/interest_me_20130104_095920.jpg" class="card-img-top" alt="board" height="275" width="250">
+        <br>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 class="modal-title" id="exampleModalLabel">제목 : {{ board.title }}</h5>
+        내용 : {{ board.content }}
+        <p>{{ board.comment_set.all | length }}개의 댓글이 달렸습니다.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+</div>
+<!--<p>제목 : {{ board.title }}</p>-->
+<!--<p>내용 : {{ board.content }}</p>-->
+<!--<p>{{ board.comment_set.all.count }}개의 댓글이 달렸습니다. - 아래와 같은 기능</p>-->
+<!--<p>{{ board.comment_set.all | length }}개의 댓글이 달렸습니다.</p>-->
+<!--<a href="{% url 'boards:detail' board.pk %}">[글 보러가기]</a>-->
+<hr> {% empty %}
+<div>내가 쓴 글이 없습니다</div>
+{% endfor %}
+</div>
+<hr>
+
+
+<!--댓글-->
+<h4><b>{{ user_info.username }} 님이 쓴 댓글들</b> </h4>
+
+{% for comment in user_info.comment_set.all %}
+<div>
+    <p>{{ comment.board.id }}번 게시물</p>
+    <p>게시물 : <a href="{% url 'boards:detail' comment.board_id %}">{{ comment.board.title }}</a></p>
+    <p>댓글 내용 : {{ comment.content }}</p>
+    <hr>
+</div>
+{% empty %}
+<div>내가 쓴 댓글이 없습니다</div>
+{% endfor %}
+
+<a href="{% url 'boards:index' %}">[ BACK ]</a> {% endblock %}

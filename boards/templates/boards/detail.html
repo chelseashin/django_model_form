@@ -1,18 +1,48 @@
 {% extends 'boards/base.html' %}
 {% block body %}
+{% load crispy_forms_tags %}
 
 <h1>{{ board.pk }}번째 글</h1>
 <hr>
 <p>Title : {{ board.title}}</p>
 <p>Context : {{ board.content }}</p>
+<hr>
+<!-- 댓글 출력 -->
+{% for comment in board.comment_set.all %}
+    <div>
+        <b>{{ comment.user }}</b> : {{ comment.content }}
+        {% if user == comment.user %}
+            <form action="{% url 'boards:comment_delete' board.pk comment.pk %}" method="POST" style="display: inline" onsubmit="return confirm('R U SURE?')">
+                {% csrf_token %}
+                <input type="submit" value="삭제">
+            </form>
+        {% endif %}
+    </div>
+<!--댓글이 없는 경우-->
+{% empty %}
+    <div>댓글이 없습니다</div>
+{% endfor %}
+
+<!-- 댓글 입력 창 -->
+<hr>
+{% if user.is_authenticated %}
+    <form action="{% url 'boards:comment_create' board.pk %}" method="POST">
+        {% csrf_token %}
+        {{ comment_form|crispy }}
+        <input type="submit" value="작성">
+    </form>
+{% else %}
+    <a href="{% url 'accounts:login' %}">댓글을 작성하려면 로그인하세요</a>
+{% endif %}
 
 {% if user == board.user %}
-<form action="{% url 'boards:delete' board.pk %}" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="삭제"/>
-</form>
-<a href="{% url 'boards:update' board.pk %}">[수정]</a>
+    <form action="{% url 'boards:delete' board.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="DELETE"/>
+    </form>
+    <a href="{% url 'boards:update' board.pk %}">[EDIT]</a>
 {% endif %}
 <a href="{% url 'boards:index' %}">[ BACK ]</a>
+<hr>
 
 {% endblock %}
